@@ -1,0 +1,44 @@
+{
+  "name": "cumul.io-integration",
+  "version": "1.0.0",
+  "description": "Cumul.io sample integration",
+  "main": "server.js",
+  "scripts": {
+    "start": "npm-run-all --parallel watch:server watch:frontend",
+    "watch:server": "nodemon server/server.js --watch server",
+    "watch:frontend": "webpack --watch"
+  },
+  "author": "",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "cumulio": "1.0.1",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "querystring": "^0.2.0",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.14.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.1.0",
+    "nodemon": "^1.19.3",
+    "npm-run-all": "^4.1.5",
+    "webpack": "^5.9.0",
+    "webpack-cli": "^4.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TuanaCelik/cumulio-spotify-datatalks.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TuanaCelik/cumulio-spotify-datatalks/issues"
+  },
+  "homepage": "https://github.com/TuanaCelik/cumulio-spotify-datatalks#readme"
+}
