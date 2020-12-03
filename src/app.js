@@ -11,8 +11,13 @@ const spotify = new Spotify();
 export const ui = new UI(spotify);
 
 /*********** ADD DASHBOARD OPTIONS ************/
+const dashboards = {
+  playlist: 'f3555bce-a874-4924-8d08-136169855807',
+};
+
+
 const dashboardOptions = {
-  dashboardId: 'f3555bce-a874-4924-8d08-136169855807',
+  dashboardId: dashboards.playlist,
   container: '#dashboard-container',
   loader: {
     background: '#111b31',
@@ -73,8 +78,14 @@ export const openPagePlaylist = async (playlist) => {
 export const openPageCumulioFavorites = async () => {
   ui.openPage('Cumul.io playlist visualized', 'cumulio-playlist-viz');
   /**************** INTEGRATE DASHBOARD ****************/
-  Cumulio.addDashboard(dashboardOptions);
+  loadDashboard(dashboards.playlist);
 };
+
+const loadDashboard = (id, container) => {
+  dashboardOptions.dashboardId = id;
+  dashboardOptions.container = container || '#dashboard-container';  
+  Cumulio.addDashboard(dashboardOptions);
+}; 
 
 /* 
   
