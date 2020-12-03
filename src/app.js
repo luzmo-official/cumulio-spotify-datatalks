@@ -78,6 +78,7 @@ export const openPagePlaylist = async (playlist) => {
 export const openPageCumulioFavorites = async () => {
   ui.openPage('Cumul.io playlist visualized', 'cumulio-playlist-viz');
   /**************** INTEGRATE DASHBOARD ****************/
+  listenToEvents();
   loadDashboard(dashboards.playlist);
 };
 
@@ -94,7 +95,16 @@ const loadDashboard = (id, container) => {
 */
 
 /*********** LISTEN TO CUSTOM EVENTS AND ADD EXTRAS ************/
-
+const listenToEvents = () => {
+  Cumulio.onCustomEvent(async (event) => {
+    if (event.data.event === 'add_to_playlist'){
+      console.log('ADD TO PLAYLIST');
+    }
+    else if (event.data.event === 'song_info') {
+      console.log('SONG INFO');
+    }
+  });
+};
 /**************************************************************/
 
 /* 
