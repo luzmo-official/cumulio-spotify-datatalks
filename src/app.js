@@ -13,6 +13,7 @@ export const ui = new UI(spotify);
 /*********** ADD DASHBOARD OPTIONS ************/
 const dashboards = {
   playlist: 'f3555bce-a874-4924-8d08-136169855807',
+  songInfo: 'e92c869c-2a94-406f-b18f-d691fd627d34',
 };
 
 
@@ -82,9 +83,15 @@ export const openPageCumulioFavorites = async () => {
   loadDashboard(dashboards.playlist);
 };
 
-const loadDashboard = (id, container) => {
+const loadDashboard = (id, container, key, token) => {
   dashboardOptions.dashboardId = id;
-  dashboardOptions.container = container || '#dashboard-container';  
+  dashboardOptions.container = container || '#dashboard-container';
+  
+  if (key && token) {
+    dashboardOptions.key = key;
+    dashboardOptions.token = token;
+  }
+
   Cumulio.addDashboard(dashboardOptions);
 }; 
 
@@ -118,7 +125,9 @@ const listenToEvents = () => {
       await ui.addToPlaylistSelector(song.name, song.id);
     }
     else if (event.data.event === 'song_info') {
-      await getDashboardAuthorizationToken({ songId: [song.id] });
+      const token = await getDashboardAuthorizationToken({ songId: [song.id] });
+      loadDashboard(dashboards.songInfo, '#song-info-dashboard', token.id, token.token);
+      await ui.displaySongInfo(song);
     }
   });
 };
