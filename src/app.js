@@ -118,9 +118,37 @@ const listenToEvents = () => {
       await ui.addToPlaylistSelector(song.name, song.id);
     }
     else if (event.data.event === 'song_info') {
-      console.log('SONG INFO');
+      await getDashboardAuthorizationToken({ songId: [song.id] });
     }
   });
+};
+
+const getDashboardAuthorizationToken = async (metadata) => {
+  try {
+    const body = {};
+    if (metadata && typeof metadata === 'object') {
+      Object.keys(metadata).forEach(key => {
+        body[key] = metadata[key];
+      });
+    }
+
+    /*
+      Make the call to the backend API, using the platform user access credentials in the header
+      to retrieve a dashboard authorization token for this user
+    */
+    const response = await fetch('/authorization', {
+      method: 'post',
+      body: JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    // Fetch the JSON result with the Cumul.io Authorization key & token
+    const responseData = await response.json();
+    return responseData;
+  }
+  catch (e) {
+    return { error: 'Could not retrieve dashboard authorization token.' };
+  }
 };
 /**************************************************************/
 
