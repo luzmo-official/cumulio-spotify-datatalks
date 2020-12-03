@@ -95,10 +95,27 @@ const loadDashboard = (id, container) => {
 */
 
 /*********** LISTEN TO CUSTOM EVENTS AND ADD EXTRAS ************/
+const getSong = (event) => {
+  let songName;
+  let songArtist;
+  let songId;
+  if (event.data.columns === undefined) {
+    songName = event.data.name.id.split('&id=')[0];
+    songId = event.data.name.id.split('&id=')[1];
+  }
+  else {
+    songName = event.data.columns[0].value;
+    songArtist = event.data.columns[1].value;
+    songId = event.data.columns[event.data.columns.length - 1].value;
+  }
+  return {id: songId, name: songName, artist: songArtist};
+};
+
 const listenToEvents = () => {
   Cumulio.onCustomEvent(async (event) => {
+    const song = getSong(event);
     if (event.data.event === 'add_to_playlist'){
-      console.log('ADD TO PLAYLIST');
+      await ui.addToPlaylistSelector(song.name, song.id);
     }
     else if (event.data.event === 'song_info') {
       console.log('SONG INFO');
